@@ -8,10 +8,17 @@
 {% block body %}
 	<h1>Accueil</h1>
 
-	{% for product in products %}
-		<div>
-			<h2>{{ product.name }}</h2>
-			<img src={{ product.image }} alt={{ product.name }}>
-		</div>
-	{% endfor %}
+	<h2>Nos luminaires</h2>
+	<div class="d-flex justify-content-between flex-wrap gap-3">
+		{% for product in products %}
+			<div class="card" style="width: 18rem;">
+				<img src={{ product.image }} class="card-img-top" alt={{ product.name }}>
+				<div class="card-body">
+					<h3 class="card-title">{{ product.name }}</h3>
+					<p class="card-text">{{ product.description }}</p>
+					<a href="" {# {{ path('front_home_detail', {'slug': product.slug} ) }} #} class="btn btn-primary">En savoir plus</a>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
 {% endblock %}
