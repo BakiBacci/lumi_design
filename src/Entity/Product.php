@@ -64,6 +64,11 @@ class Product
     {
     }
 
+    #[ORM\PreUpdate]
+    public function preUpdate()
+    {
+    }
+
     // meme chose pour le update
 
 

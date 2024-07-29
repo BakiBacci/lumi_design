@@ -16,6 +16,7 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
     {
         $this->faker = \Faker\Factory::create('fr_FR');
         $this->faker->addProvider(new \Faker\Provider\FakeCar($this->faker));
+        $this->faker->addProvider(new \Smknstd\FakerPicsumImages\FakerPicsumImagesProvider($this->faker));
     }
 
     public function load(ObjectManager $manager): void
@@ -25,6 +26,7 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
             $product
                 ->setName($this->faker->sentence(3))
                 ->setDescription('Description de produit ' . $i)
+                ->setImage($this->faker->imageUrl(width: 800, height: 600))
                 ->setPrice($this->faker->randomFloat(2, 10, 100))
                 ->setStock($this->faker->numberBetween(0, 1000))
                 ->setUpdatedAt(DateTimeImmutable::createFromMutable($this->faker->dateTimeBetween('-3 months')))

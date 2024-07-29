@@ -17,10 +17,19 @@ class SluggerListener
 
     public function prePersist(LifecycleEventArgs $args)
     {
+        $this->generateSlug($args);
+    }
+
+    public function preUpdate(LifecycleEventArgs $args)
+    {
+        $this->generateSlug($args);
+    }
+
+    private function generateSlug($args)
+    {
         $entity = $args->getObject();
 
-        if(!$entity instanceof Product)
-        {
+        if (!$entity instanceof Product) {
             return;
         }
 

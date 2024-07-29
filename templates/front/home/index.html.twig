@@ -11,6 +11,7 @@
 	{% for product in products %}
 		<div>
 			<h2>{{ product.name }}</h2>
+			<img src={{ product.image }} alt={{ product.name }}>
 		</div>
 	{% endfor %}
 {% endblock %}
