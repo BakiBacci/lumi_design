@@ -1,0 +1,16 @@
+{% extends 'front/base.html.twig' %}
+
+{% block title %}
+	{{ parent()}}
+	Accueil!
+{% endblock %}
+
+{% block body %}
+	<h1>Accueil</h1>
+
+	{% for product in products %}
+		<div>
+			<h2>{{ product.name }}</h2>
+		</div>
+	{% endfor %}
+{% endblock %}

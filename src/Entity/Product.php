@@ -3,12 +3,16 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Doctrine\ORM\Mapping\PrePersist;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[UniqueEntity(fields: ['name'])]
+#[HasLifecycleCallbacks]
 class Product
 {
     #[ORM\Id]
@@ -42,6 +46,18 @@ class Product
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Category $category = null;
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue()
+    {
+        return $this->createdAt = new DateTimeImmutable();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdatedAtValue()
+    {
+        return $this->updatedAt = new DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
