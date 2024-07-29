@@ -6,6 +6,7 @@ import './bootstrap.js';
  * which should already be in your base.html.twig.
  */
 import './vendor/bootstrap/dist/css/bootstrap.min.css';
+import './vendor/bootstrap/dist/js/bootstrap.min.js';
 import './vendor/@popperjs/core/core.index.js';
 import './styles/app.css';
 
