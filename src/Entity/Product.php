@@ -59,6 +59,14 @@ class Product
         return $this->updatedAt = new DateTimeImmutable();
     }
 
+    #[ORM\PrePersist]
+    public function prePersist()
+    {
+    }
+
+    // meme chose pour le update
+
+
     public function getId(): ?int
     {
         return $this->id;
