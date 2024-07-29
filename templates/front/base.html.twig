@@ -14,8 +14,9 @@
 			{% endblock %}
 		{% endblock %}
 	</head>
-	<body>
+	<body class="container">
 		{% include "front/partials/_header.html.twig" %}
+		{% include "front/partials/_flash.html.twig" %}
 		{% block body %}{% endblock %}
 		{% include "front/partials/_footer.html.twig" %}
 	</body>
