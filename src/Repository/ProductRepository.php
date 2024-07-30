@@ -23,11 +23,7 @@ class ProductRepository extends ServiceEntityRepository
 
     public function paginateProduct(int $page): PaginationInterface
     {
-        return $this->paginator->paginate(
-            $this->createQueryBuilder('p'),
-            $page,
-            10
-        );
+        return $this->paginator->paginate($this->createQueryBuilder('p'), $page, 10);
     }
 
     //    /**
