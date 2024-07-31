@@ -15,6 +15,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[UniqueEntity(fields: ['name', 'slug'])]
 #[HasLifecycleCallbacks]
+#[Vich\Uploadable]
 class Product
 {
     #[ORM\Id]
@@ -23,6 +24,7 @@ class Product
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
@@ -34,10 +36,15 @@ class Product
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
+    #[Assert\Image()]
+    #[Vich\UploadableField(mapping: 'products', fileNameProperty: 'image')]
+    private ?File $imageFile = null;
+
     #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 2, nullable: true)]
     private ?string $price = null;
 
     #[ORM\Column]
+    #[Assert\PositiveOrZero()]
     private ?int $stock = null;
 
     #[ORM\Column]
@@ -180,6 +187,20 @@ class Product
     public function setCategory(?Category $category): static
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+
+    public function setImageFile($imageFile)
+    {
+        $this->imageFile = $imageFile;
 
         return $this;
     }

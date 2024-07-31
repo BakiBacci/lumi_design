@@ -2,7 +2,10 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Product;
+use App\Form\ProductType;
 use App\Repository\ProductRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +21,23 @@ class ProductController extends AbstractController
 
         return $this->render('admin/product/index.html.twig', [
             'products' => $pagination
+        ]);
+    }
+
+    #[Route('/ajouter', name: 'new', methods: ['GET', 'POST'])]
+    public function new(EntityManagerInterface $em, Request $request): Response
+    {
+        $product = new Product();
+        $form = $this->createForm(ProductType::class, $product);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($product);
+            $em->flush();
+        }
+
+        return $this->render('admin/product/new.html.twig', [
+            'form' => $form,
         ]);
     }
 }
