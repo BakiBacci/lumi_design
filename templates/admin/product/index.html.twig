@@ -11,9 +11,9 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th scope="col">#</th>
-					<th scope="col">Nom du produit</th>
-					<th scope="col">Date de mise à jour</th>
+					<th scope="col">{{ knp_pagination_sortable(products, '#', 'p.id') }}</th>
+					<th scope="col">{{ knp_pagination_sortable(products, 'Produits', 'p.name') }}</th>
+					<th scope="col">{{ knp_pagination_sortable(products, 'Date de mise à jour', 'p.updatedAt') }}</th>
 					<th scope="col">Modifier</th>
 					<th scope="col">Supprimer</th>
 				</tr>
