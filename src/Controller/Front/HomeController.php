@@ -14,7 +14,7 @@ class HomeController extends AbstractController
     #[Route('/', name: 'index', methods: ['GET'])]
     public function index(ProductRepository $repository, Request $request): Response
     {
-        $pagination = $repository->paginateProductOrderByUpdatedAt($request->query->getInt('page', 1));
+        $pagination = $repository->paginateProductsOrderByUpdatedAt($request->query->getInt('page', 1));
 
         return $this->render('front/home/index.html.twig', [
             'products' => $pagination,
@@ -24,8 +24,7 @@ class HomeController extends AbstractController
     #[Route('/detail/{slug}', name: 'show', methods: ['GET'])]
     public function show(string $slug, ProductRepository $repository): Response
     {
-        $product = $repository->findWithCategory($slug);
-
+        $product = $repository->findProductWithCategoryBySlug($slug);
 
         return $this->render('front/home/show.html.twig', [
             'product' => $product

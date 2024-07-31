@@ -14,7 +14,7 @@ class ProductController extends AbstractController
     #[Route('/', name: 'index', methods: ['GET'])]
     public function index(ProductRepository $repository, Request $request): Response
     {
-        $pagination = $repository->paginateProduct($request->query->getInt('page', 1));
+        $pagination = $repository->paginateProducts($request->query->getInt('page', 1));
 
         return $this->render('admin/product/index.html.twig', [
             'products' => $pagination

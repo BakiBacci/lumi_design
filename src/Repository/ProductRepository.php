@@ -21,17 +21,17 @@ class ProductRepository extends ServiceEntityRepository
         $this->paginator = $paginator;
     }
 
-    public function paginateProduct(int $page): PaginationInterface
+    public function paginateProducts(int $page): PaginationInterface
     {
         return $this->paginator->paginate($this->createQueryBuilder('p'), $page, 10);
     }
 
-    public function paginateProductOrderByUpdatedAt(int $page): PaginationInterface
+    public function paginateProductsOrderByUpdatedAt(int $page): PaginationInterface
     {
         return $this->paginator->paginate($this->createQueryBuilder('p')->orderBy('p.updatedAt', 'DESC'), $page, 10);
     }
 
-    public function findWithCategory(string $slug): ?Product
+    public function findProductWithCategoryBySlug(string $slug): ?Product
     {
         return $this->createQueryBuilder('p')
             ->leftJoin('p.category', 'c')
