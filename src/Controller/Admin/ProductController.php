@@ -34,6 +34,10 @@ class ProductController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($product);
             $em->flush();
+
+            $this->addFlash('success', 'Vous avez créé un nouveau produit.');
+
+            return $this->redirectToRoute('admin_product_index');
         }
 
         return $this->render('admin/product/new.html.twig', [
