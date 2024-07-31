@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
-#[UniqueEntity(fields: ['name'])]
+#[UniqueEntity(fields: ['name', 'slug'])]
 #[HasLifecycleCallbacks]
 class Product
 {

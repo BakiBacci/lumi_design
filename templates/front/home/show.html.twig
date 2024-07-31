@@ -1,0 +1,24 @@
+{% extends "front/base.html.twig" %}
+
+{% block title %}
+	{{ parent()}}
+	Detail
+{% endblock %}
+
+
+{% block body %}
+	<main>
+		{% if product is not null %}
+			<h1>{{ product.name }}</h1>
+			<p>{{ product.description }}</p>
+			<p>Prix :
+				{{ product.price }}</p>
+			<p>Categorie :
+				{{ product.category.name ?? 'N/A'  }}
+			</p>
+			<p>Categorie :
+				{{ product.category.id ?? 'N/A' }}
+			</p>
+		{% endif %}
+	</main>
+{% endblock %}

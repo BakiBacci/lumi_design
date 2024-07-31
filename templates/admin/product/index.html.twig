@@ -1,0 +1,49 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}
+	{{ parent() }}
+	Produits
+{% endblock %}
+
+{% block body %}
+	<a href="#" class="btn btn-warning">Ajouter un produit</a>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Nom du produit</th>
+				<th>Date de mise à jour</th>
+				<th>Modifier</th>
+				<th>Supprimer</th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<th>#</th>
+				<th>Nom du produit</th>
+				<th>Date de mise à jour</th>
+				<th>Modifier</th>
+				<th>Supprimer</th>
+			</tr>
+		</tfoot>
+		<tbody>
+			{% for product in products %}
+				<tr>
+					<th>{{ product.id}}</th>
+					<td>{{ product.name}}</td>
+					<td>{{ product.updatedAt|date('d/m/Y')}}</td>
+					<td>
+						<a href="" class="btn btn-primary">Modifier</a>
+					</td>
+					<td>
+						<a href="" class="btn btn-danger">Supprimer</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<div class="navigation mt-3">
+		{{ knp_pagination_render(products) }}
+	</div>
+{% endblock %}
