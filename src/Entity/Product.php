@@ -191,12 +191,10 @@ class Product
         return $this;
     }
 
-
     public function getImageFile()
     {
         return $this->imageFile;
     }
-
 
     public function setImageFile($imageFile)
     {
