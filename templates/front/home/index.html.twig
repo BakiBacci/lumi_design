@@ -17,7 +17,12 @@
 				{% for product in products %}
 					<div class="col-md-4">
 						<div class="card mb-4">
-							<img src="{{ product.image }}" class="card-img-top" alt="{{ product.name }}">
+							{% if product.image starts with 'http' %}
+								<img src="{{ product.image }}" class="card-img-top" alt="{{ product.name }}">
+							{% else %}
+								<img src={{ asset('img/products/' ~ product.image) }} class="card-img-top" alt="{{ product.name }}">
+							{% endif %}
+
 							<div class="card-body">
 								<h5 class="card-title">{{ product.name }}</h5>
 								<p class="card-text">{{ product.description|slice(0, 50) }}...</p>

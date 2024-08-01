@@ -1,0 +1,17 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}
+	{{ parent() }}
+	Produits
+{% endblock %}
+
+{% block body %}
+	<main>
+		{% if product is not null %}
+			<pre>
+				{{ dump(product) }}
+			</pre>
+		{% endif %}
+
+	</main>
+{% endblock %}
