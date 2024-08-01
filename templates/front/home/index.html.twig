@@ -4,17 +4,21 @@
 	{{ parent()}}Accueil!
 {% endblock %}
 
+{% block stylesheets %}
+	<link rel="stylesheet" href={{ asset('css/style.css')}}>
+{% endblock %}
+
 {% block body %}
 	<main>
-		<section>
+		<section class="hero mb-5">
 			<h1 class="display-5 fw-bold mb-4">Nos Luminaires</h1>
 			<p class="fs-4">Découvrez notre collection exclusive de luminaires élégants et modernes.</p>
 		</section>
 
 		<section>
-			<div class="container mt-5">
-				<h2 class="mb-4">Nos nouveautés</h2>
-				<div class="row">
+			<div class="container">
+				<h2 class="mb-5">Nos nouveautés</h2>
+				<div class="row g-5">
 					{% for product in products %}
 						<div class="col-md-4">
 							<div class="card mb-4">
