@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Requirement\Requirement;
 class CategoryController extends AbstractController
 {
     #[Route('/{id}', name: 'index', methods: ['GET', 'POST'], requirements: ['id' => Requirement::DIGITS], defaults: ['id' => null])]
-    public function index(?Category $category, CategoryRepository $repository, Request $request, EntityManagerInterface $em): Response
+    public function index(?Category $category, Request $request, CategoryRepository $repository,  EntityManagerInterface $em): Response
     {
         if (!$category) {
             $category = new Category();
@@ -29,7 +29,7 @@ class CategoryController extends AbstractController
             $em->persist($category);
             $em->flush();
 
-            $this->addFlash('success', 'Bravo');
+            $this->addFlash('success', 'La catégorie a été sauvegardée avec succès.');
             return $this->redirectToRoute('admin_category_index');
         }
 
@@ -40,12 +40,12 @@ class CategoryController extends AbstractController
     }
 
     #[Route('/supprimer/{id}', name: 'delete', methods: ['DELETE'])]
-    public function delete(Category $category, EntityManagerInterface $em)
+    public function delete(Category $category, EntityManagerInterface $em): Response
     {
         $em->remove($category);
         $em->flush();
 
-        $this->addFlash('danger', 'Une categorie a été supprimé');
+        $this->addFlash('danger', 'La catégorie a été supprimée avec succès.');
         return $this->redirectToRoute('admin_category_index');
     }
 }
