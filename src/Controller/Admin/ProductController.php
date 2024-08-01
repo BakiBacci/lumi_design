@@ -25,7 +25,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/detail/{slug}', name: 'show', methods: ['GET'])]
+    #[Route('/detail/{slug}', name: 'show', methods: ['GET'], requirements: ['slug' => Requirement::ASCII_SLUG])]
     public function show(?Product $product)
     {
         return $this->render('admin/product/show.html.twig', [
