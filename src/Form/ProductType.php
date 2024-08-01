@@ -20,6 +20,7 @@ class ProductType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
+                'empty_data' => '',
                 'label' => 'Nom'
             ])
             ->add('description', TextareaType::class, [
@@ -31,13 +32,12 @@ class ProductType extends AbstractType
             ])
             ->add('price', NumberType::class, [
                 'required' => false,
-                'label' => 'Prix'
+                'label' => 'Prix',
             ])
             ->add('stock', IntegerType::class)
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
-
             ]);
     }
 

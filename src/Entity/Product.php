@@ -25,10 +25,10 @@ class Product
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank()]
-    private ?string $name = null;
+    private string $name = '';
 
     #[ORM\Column(length: 255)]
-    private ?string $slug = null;
+    private string $slug = '';
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
@@ -54,6 +54,7 @@ class Product
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
+    // #[ORM\JoinColumn(onDelete: 'SET NULL')]
     private ?Category $category = null;
 
     #[ORM\PrePersist]
@@ -83,7 +84,7 @@ class Product
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -95,7 +96,7 @@ class Product
         return $this;
     }
 
-    public function getSlug(): ?string
+    public function getSlug(): string
     {
         return $this->slug;
     }
