@@ -31,6 +31,12 @@ class HomeController extends AbstractController
         ]);
     }
 
+    #[Route('/conditions-du-site', name: 'terms')]
+    public function terms()
+    {
+        return $this->render('front/home/terms.html.twig');
+    }
+
 
 
     // creer une route Controller\Admin  ProductController
