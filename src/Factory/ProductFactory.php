@@ -40,6 +40,7 @@ final class ProductFactory extends PersistentProxyObjectFactory
             'stock' => self::faker()->numberBetween(0, 1000),
             'price' => self::faker()->randomFloat(2, 0, 1000),
             'category' => CategoryFactory::new(),
+            // 'roles' => ['ROLE_ADMIN']
         ];
     }
 
