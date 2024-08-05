@@ -28,6 +28,14 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/detail/{id}', name: 'show', methods: ['GET'])]
+    public function show(?User $user): Response
+    {
+        return $this->render('admin/user/show.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
     #[IsGranted('ROLE_SUPER_ADMIN')]
     #[Route('/creer-admin', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $userPasswordHasher): Response

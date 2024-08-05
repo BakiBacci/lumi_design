@@ -22,7 +22,7 @@ class UserType extends AbstractType
             ])
             ->add('lastName')
             ->add('firstName')
-            ->add('adress')
+            ->add('address')
             ->add('zipCode')
             ->add('city')
             ->add('phoneNumber')
