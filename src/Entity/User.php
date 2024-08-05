@@ -25,13 +25,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180)]
     #[Assert\NotBlank()]
     private ?string $email = null;
-    
+
     /**
      * @var list<string> The user roles
      */
     #[ORM\Column]
     private array $roles = [];
-    
+
     /**
      * @var string The hashed password
      */
