@@ -13,17 +13,19 @@
 				<th>Email</th>
 				<td>{{ user.email }}</td>
 			</tr>
-            <tr>
-                <th>Mot de passe</th>
-                <td>{{ user.firstName ~ ' ' ~ user.lastName }} </td>
-            </tr>
-            <tr>
-                <th>Adresse</th>
-                <td>{{ user.address }}{{ user.zipCode }}{{ user.city }}</td>
-            <tr>
-                <th>Date de création</th>
-                <td>{{ user.createdAt|date('d/m/Y H:i') }}</td>
-            </tr>
+			<tr>
+				<th>Mot de passe</th>
+				<td>{{ user.firstName ~ ' ' ~ user.lastName }}
+				</td>
+			</tr>
+			<tr>
+				<th>Adresse</th>
+				<td>{{ user.address }}{{ user.zipCode }}{{ user.city }}</td>
+			</tr>
+			<tr>
+				<th>Date de création</th>
+				<td>{{ user.createdAt|date('d/m/Y H:i') }}</td>
+			</tr>
 			<tr>
 				<th>Roles</th>
 				<td>{{ user.roles|join(', ') }}</td>
