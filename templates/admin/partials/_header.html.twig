@@ -20,17 +20,18 @@
 					<li class="nav-item">
 						<a href={{ path('admin_category_index') }} class="nav-link">Categories</a>
 					</li>
-
-					{% if not is_granted('IS_AUTHENTICATED') %}
-						<li class="ms-auto d-flex align-items-center">{# <a class="nav-link" href={{ path('app_login') }}>Connexion</a> #}
-							{# / #}
-							{# <a class="nav-link" href={{ path('app_register') }}>Inscription</a> #}
-						</li>
-					{% else %}
-						<li
-							class="ms-auto">{# <a class="nav-link" href={{ path('app_logout') }}>Deconnexion</a> #}
+					<li class="nav-item">
+						<a href={{ path('admin_user_index') }} class="nav-link">Utilisateurs</a>
+					</li>
+					{% if is_granted('ROLE_SUPER_ADMIN') %}
+						<li>
+							<a href={{ path('admin_user_new')}} class="nav-link">
+								Créer un Administrateur</a>
 						</li>
 					{% endif %}
+					<li class="ms-auto">
+						<a class="nav-link" href={{ path('app_logout') }}>Deconnexion</a>
+					</li>
 				</ul>
 			</div>
 		</div>

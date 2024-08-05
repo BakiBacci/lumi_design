@@ -31,19 +31,9 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/conditions-du-site', name: 'terms')]
+    #[Route('/conditions-du-site', name: 'terms_conditions')]
     public function terms()
     {
         return $this->render('front/home/terms.html.twig');
     }
-
-
-
-    // creer une route Controller\Admin  ProductController
-    // /admin/produit     index
-    // affiche la liste des produit sous forme d'un tableau
-    //  Id  | Nom du Produit | date de creation | Modifier | Supprimer
-    // il y aura une pagination
-
-    // NOM_Prenom
 }

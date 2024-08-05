@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Requirement\Requirement;
 #[Route('/admin/categorie', name: 'admin_category_')]
 class CategoryController extends AbstractController
 {
-    #[Route('/{id}', name: 'index', methods: ['GET', 'POST'], requirements: ['id' => Requirement::DIGITS], defaults: ['id' => null])]
+    #[Route('/{id?}', name: 'index', methods: ['GET', 'POST'], requirements: ['id' => Requirement::DIGITS])]
     public function index(?Category $category, Request $request, CategoryRepository $repository,  EntityManagerInterface $em): Response
     {
         if (!$category) {
