@@ -26,16 +26,23 @@
 					<td>{{ data.quantity }}</td>
 					<td>{{ data.total }}</td>
 					<td>
-						<a href={{ path('front_cart_add', { 'id': data.product.id} )}} class="btn btn-warning">+</a>
+						<a href={{ path('front_cart_add', { 'id': data.product.id} )}} class="btn btn-success">+</a>
 
-						<a href={{ path('front_cart_remove', { 'id': data.product.id} )}} class="btn btn-danger">-</a>
+						<a href={{ path('front_cart_decrease', { 'id': data.product.id} )}} class="btn btn-warning">-</a>
 					</td>
 					<td>
-						<a href="" class="btn btn-danger">Supprimer</a>
+						<a href={{ path('front_cart_remove', { 'id': data.product.id} )}} class="btn btn-danger">Supprimer</a>
 						{# Quand j'appuye sur supprimer ça supprime toute les données pour ce produit #}
 					</td>
 				</tr>
 			{% endfor %}
+			<tr>
+				<td colspan="4">Total</td>
+				<td>euros</td>
+				<td>
+					<a href={{ path('front_cart_empty') }}>Vider le panier</a>
+				</td>
+			</tr>
 		</table>
 	</main>
 {% endblock %}
