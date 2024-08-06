@@ -20,6 +20,7 @@ class CartService
     {
         $cart = $this->getSession()->get('cart', []);
         $dataCart = [];
+        $totalCart = 0;
 
         foreach ($cart as $id => $quantity) {
             $product = $this->repository->find($id);
@@ -28,13 +29,63 @@ class CartService
             }
 
             $total = $product->getPrice() * $quantity;
+
             $dataCart[] = [
                 'product' => $product,
                 'quantity' => $quantity,
                 'total' => $total,
             ];
+
+            $totalCart = $totalCart + $total;
         }
 
-        return $dataCart;
+        return [
+            'dataCart' => $dataCart,
+            'total' => $totalCart
+        ];
+    }
+
+    public function incrementProductQuantity(int $id)
+    {
+        $cart = $this->getSession()->get('cart', []);
+
+        if (!isset($cart[$id])) {
+            $cart[$id] = 1;
+        } else {
+            $cart[$id]++;
+        }
+
+        $this->getSession()->set('cart', $cart);
+    }
+
+    public function decreaseProductQuantity(int $id)
+    {
+        $cart = $this->getSession()->get('cart', []);
+
+        if (isset($cart[$id])) {
+            if ($cart[$id] > 1) {
+                $cart[$id] = $cart[$id] - 1;
+            } else {
+                unset($cart[$id]);
+            }
+        }
+
+        $this->getSession()->set('cart', $cart);
+    }
+
+    public function removeProductFromCart(int $id)
+    {
+        $cart = $this->getSession()->get('cart', []);
+
+        if (isset($cart[$id])) {
+            unset($cart[$id]);
+        }
+
+        $this->getSession()->set('cart', $cart);
+    }
+
+    public function emptyCart()
+    {
+        $this->getSession()->remove('cart');
     }
 }

@@ -17,67 +17,42 @@ class CartController extends AbstractController
     #[Route('/front/cart', name: 'index', methods: ['GET'])]
     public function index(CartService $cartService): Response
     {
-        $dataCart = $cartService->getCartContent();
+        $data = $cartService->getCartContent();
 
         return $this->render('front/cart/index.html.twig', [
-            'dataCart' => $dataCart,
+            'dataCart' => $data['dataCart'],
+            'total' => $data['total']
         ]);
     }
 
     #[Route('/ajouter/{id}', name: 'add', methods: ['GET'], requirements: ['id' => Requirement::DIGITS])]
-    public function add(int $id, SessionInterface $session): Response
+    public function add(int $id, CartService $cartService): Response
     {
-        // incrementProductQuantity
-        
-        // $cart = $session->get('cart', []);
-
-        // if (!isset($cart[$id])) {
-        //     $cart[$id] = 1;
-        // } else {
-        //     $cart[$id]++;
-        // }
-
-        // $session->set('cart', $cart);
+        $cartService->incrementProductQuantity($id);
 
         return $this->redirectToRoute('front_cart_index');
     }
 
     #[Route('/diminuer/{id}', name: 'decrease', methods: ['GET'], requirements: ['id' => Requirement::DIGITS])]
-    public function decrease(int $id, SessionInterface $session): Response
+    public function decrease(int $id, CartService $cartService): Response
     {
-        $cart = $session->get('cart', []);
-
-        if (isset($cart[$id])) {
-            if ($cart[$id] > 1) {
-                $cart[$id] = $cart[$id] - 1;
-            } else {
-                unset($cart[$id]);
-            }
-        }
-
-        $session->set('cart', $cart);
+        $cartService->decreaseProductQuantity($id);
 
         return $this->redirectToRoute('front_cart_index');
     }
 
     #[Route('/supprimer/{id}', name: 'remove', methods: ['GET'], requirements: ['id' => Requirement::DIGITS])]
-    public function remove($id, SessionInterface $session): Response
+    public function remove($id, CartService $cartService): Response
     {
-        $cart = $session->get('cart', []);
-
-        if (isset($cart[$id])) {
-            unset($cart[$id]);
-        }
-
-        $session->set('cart', $cart);
+        $cartService->removeProductFromCart($id);
 
         return $this->redirectToRoute('front_cart_index');
     }
 
     #[Route('/vider', name: 'empty', methods: ['GET'])]
-    public function empty(SessionInterface $session, Request $request): Response
+    public function empty(CartService $cartService): Response
     {
-        $session->remove('cart');
+        $cartService->emptyCart();
 
         return $this->redirectToRoute('front_cart_index');
     }
