@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Requirement\Requirement;
 #[Route('/panier', name: 'front_cart_')]
 class CartController extends AbstractController
 {
-    #[Route('/front/cart', name: 'index')]
+    #[Route('/front/cart', name: 'index', methods: ['GET'])]
     public function index(SessionInterface $session, ProductRepository $repository): Response
     {
         $cart = $session->get('cart', []);
@@ -37,15 +37,36 @@ class CartController extends AbstractController
             'dataCart' => $dataCart,
         ]);
     }
+
     #[Route('/ajouter/{id}', name: 'add', methods: ['GET'], requirements: ['id' => Requirement::DIGITS])]
     public function add($id, SessionInterface $session)
     {
         $cart = $session->get('cart', []);
+
         if (!isset($cart[$id])) {
             $cart[$id] = 1;
         } else {
             $cart[$id]++;
         }
+
+        $session->set('cart', $cart);
+
+        return $this->redirectToRoute('front_cart_index');
+    }
+
+    #[Route('/diminuer/{id}', name: 'remove', methods: ['GET'], requirements: ['id' => Requirement::DIGITS])]
+    public function remove($id, SessionInterface $session)
+    {
+        $cart = $session->get('cart', []);
+
+        if (isset($cart[$id])) {
+            if ($cart[$id] > 1) {
+                $cart[$id] = $cart[$id] - 1;
+            } else {
+                unset($cart[$id]);
+            }
+        }
+
         $session->set('cart', $cart);
 
         return $this->redirectToRoute('front_cart_index');

@@ -16,6 +16,7 @@
 					<th>Quantité</th>
 					<th>Total</th>
 					<th>Action</th>
+					<th>Supprimer</th>
 				</tr>
 			</thead>
 			{% for data in dataCart %}
@@ -25,9 +26,13 @@
 					<td>{{ data.quantity }}</td>
 					<td>{{ data.total }}</td>
 					<td>
-						<a href="" class="btn btn-warning">+</a>
-						{# Quand on appuye sur + dans le tableau de session ça ajoute +1 au produit en question #}
-						<a href="" class="btn btn-danger">-</a>
+						<a href={{ path('front_cart_add', { 'id': data.product.id} )}} class="btn btn-warning">+</a>
+
+						<a href={{ path('front_cart_remove', { 'id': data.product.id} )}} class="btn btn-danger">-</a>
+					</td>
+					<td>
+						<a href="" class="btn btn-danger">Supprimer</a>
+						{# Quand j'appuye sur supprimer ça supprime toute les données pour ce produit #}
 					</td>
 				</tr>
 			{% endfor %}
