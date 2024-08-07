@@ -27,6 +27,9 @@ Lorsqu'on clique sur le bouton "Commander", sauvegarder les informations de la c
 
 8. Félicitations, vous avez créé une commande en base de données dans Symfony 7 !
 
+## Exemple de code
+
+```php
 $order = new Order();
 $order->setCreatedAt(new \DateTime());
 
@@ -44,3 +47,4 @@ foreach ($cart as $id => $quantity) {
 
 $entityManager->persist($order);
 $entityManager->flush();
+```
