@@ -37,8 +37,7 @@ final class OrdersFactory extends PersistentProxyObjectFactory
             'paidAt' => \DateTimeImmutable::createFromMutable(self::faker()->dateTimeBetween('-3 years')),
             'customer' => UserFactory::new(),
             'orderNumber' => strtoupper(self::faker()->unique()->bothify('??-#######')),
-            'status' => OrdersStatus::PENDING,
-            // que le status est des valeur random en fonction de son Enum
+            'status' => self::faker()->randomElement(OrdersStatus::cases()),
         ];
     }
 
