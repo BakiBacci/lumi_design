@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\OrdersStatus;
 use App\Repository\OrdersRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -23,6 +24,9 @@ class Orders
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $paidAt = null;
+
+    #[ORM\Column(type: 'string', enumType: OrdersStatus::class)]
+    private OrdersStatus $status = OrdersStatus::PENDING;
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: false)]
@@ -76,6 +80,18 @@ class Orders
     public function setPaidAt(?\DateTimeImmutable $paidAt): static
     {
         $this->paidAt = $paidAt;
+
+        return $this;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function setStatus($status): static
+    {
+        $this->status = $status;
 
         return $this;
     }
