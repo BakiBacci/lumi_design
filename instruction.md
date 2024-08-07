@@ -17,15 +17,30 @@ Lorsqu'on clique sur le bouton "Commander", sauvegarder les informations de la c
     - Utiliser l'EntityManager pour persister l'objet
     - Appeler la méthode `flush()` pour sauvegarder en base de données
 
-4. Mettre à jour le template Twig pour inclure le bouton "Commander" avec le bon lien vers la nouvelle action
+4. Cette route doit être protégée (vérifier que l'utilisateur est connecté)
 
-5. Tester le bouton "Commander" pour vérifier que les données sont bien sauvegardées en base de données
+5. Mettre à jour le template Twig pour inclure le bouton "Commander" avec le bon lien vers la nouvelle action
 
-6. Rediriger l'utilisateur vers une page de paiement de la commande qui affiche le detail de la commande
+6. Tester le bouton "Commander" pour vérifier que les données sont bien sauvegardées en base de données
 
-7. Félicitations, vous avez créé une commande en base de données dans Symfony 7 !
+7. Rediriger l'utilisateur vers une page de paiement de la commande qui affiche le detail de la commande
 
-````
+8. Félicitations, vous avez créé une commande en base de données dans Symfony 7 !
 
-```yaml
-````
+$order = new Order();
+$order->setCreatedAt(new \DateTime());
+
+$cart = $session->get('cart', []);
+
+foreach ($cart as $id => $quantity) {
+    $orderItem = new OrderItem();
+    $product = $repository->find($id);
+
+    $orderItem->setQuantity($quantity);
+    $orderItem->setProduct($product);
+
+    $order->addOrderItem($orderItem);
+}
+
+$entityManager->persist($order);
+$entityManager->flush();
