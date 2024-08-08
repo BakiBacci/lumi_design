@@ -17,9 +17,7 @@ final class UserFactory extends PersistentProxyObjectFactory
      *
      * @todo inject services if required
      */
-    public function __construct(private UserPasswordHasherInterface $userPasswordhasher)
-    {
-    }
+    public function __construct(private UserPasswordHasherInterface $userPasswordhasher) {}
 
     public static function class(): string
     {

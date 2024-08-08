@@ -70,7 +70,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Orders>
      */
-    #[ORM\OneToMany(targetEntity: Orders::class, mappedBy: 'customer')]
+    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'customer')]
     private Collection $orders;
 
     public function __construct()
@@ -275,7 +275,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->orders;
     }
 
-    public function addOrder(Orders $order): static
+    public function addOrder(Order $order): static
     {
         if (!$this->orders->contains($order)) {
             $this->orders->add($order);
@@ -285,7 +285,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeOrder(Orders $order): static
+    public function removeOrder(Order $order): static
     {
         if ($this->orders->removeElement($order)) {
             // set the owning side to null (unless already changed)

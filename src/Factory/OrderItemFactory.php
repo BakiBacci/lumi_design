@@ -15,9 +15,7 @@ final class OrderItemFactory extends PersistentProxyObjectFactory
      *
      * @todo inject services if required
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public static function class(): string
     {
@@ -32,10 +30,10 @@ final class OrderItemFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'orders' => OrdersFactory::new(),
+            'order' => OrderFactory::new(),
             'price' => self::faker()->randomFloat(2, 10, 100),
             'product' => ProductFactory::new(),
-            'quantity' => self::faker()->numberBetween(1,10),
+            'quantity' => self::faker()->numberBetween(1, 10),
         ];
     }
 

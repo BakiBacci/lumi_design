@@ -2,7 +2,7 @@
 
 namespace App\Enum;
 
-enum OrdersStatus: string
+enum OrderStatus: string
 {
     case PENDING = 'en attente';
     case PAYMENT_PENDING = 'paiement en attente';

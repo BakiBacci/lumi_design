@@ -3,19 +3,17 @@
 namespace App\Service;
 
 use App\Entity\OrderItem;
-use App\Entity\Orders;
+use App\Entity\Order;
 use App\Entity\User;
 use App\Repository\ProductRepository;
 
 class OrderService
 {
-    public function __construct(private ProductRepository $repository)
-    {
-    }
+    public function __construct(private ProductRepository $repository) {}
 
     public function createOrder(User $user, array $cart)
     {
-        $order = new Orders();
+        $order = new Order();
         $order->setCustomer($user);
 
         foreach ($cart as $key => $value) {

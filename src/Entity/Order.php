@@ -2,17 +2,18 @@
 
 namespace App\Entity;
 
-use App\Enum\OrdersStatus;
-use App\Repository\OrdersRepository;
+use App\Enum\OrderStatus;
+use App\Repository\OrderRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
-#[ORM\Entity(repositoryClass: OrdersRepository::class)]
+#[ORM\Entity(repositoryClass: OrderRepository::class)]
+#[ORM\Table(name: '`order`')]
 #[HasLifecycleCallbacks]
-class Orders
+class Order
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -28,17 +29,17 @@ class Orders
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $paidAt = null;
 
-    #[ORM\Column(type: 'string', enumType: OrdersStatus::class)]
-    private OrdersStatus $status = OrdersStatus::PENDING;
+    #[ORM\Column(type: 'string', enumType: OrderStatus::class)]
+    private OrderStatus $status = OrderStatus::PENDING;
 
-    #[ORM\ManyToOne(inversedBy: 'orders')]
+    #[ORM\ManyToOne(inversedBy: 'order')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $customer = null;
 
     /**
      * @var Collection<int, OrderItem>
      */
-    #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'orders', orphanRemoval: true, cascade:['persist'])]
+    #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'order', orphanRemoval: true, cascade: ['persist'])]
     private Collection $orderItems;
 
     public function __construct()
@@ -129,7 +130,7 @@ class Orders
     {
         if (!$this->orderItems->contains($orderItem)) {
             $this->orderItems->add($orderItem);
-            $orderItem->setOrders($this);
+            $orderItem->setOrder($this);
         }
 
         return $this;
@@ -139,8 +140,8 @@ class Orders
     {
         if ($this->orderItems->removeElement($orderItem)) {
             // set the owning side to null (unless already changed)
-            if ($orderItem->getOrders() === $this) {
-                $orderItem->setOrders(null);
+            if ($orderItem->getOrder() === $this) {
+                $orderItem->setOrder(null);
             }
         }
 

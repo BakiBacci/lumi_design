@@ -2,27 +2,25 @@
 
 namespace App\Factory;
 
-use App\Entity\Orders;
-use App\Enum\OrdersStatus;
+use App\Entity\Order;
+use App\Enum\OrderStatus;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 
 /**
- * @extends PersistentProxyObjectFactory<Orders>
+ * @extends PersistentProxyObjectFactory<Order>
  */
-final class OrdersFactory extends PersistentProxyObjectFactory
+final class OrderFactory extends PersistentProxyObjectFactory
 {
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
      *
      * @todo inject services if required
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public static function class(): string
     {
-        return Orders::class;
+        return Order::class;
     }
 
     /**
@@ -33,11 +31,11 @@ final class OrdersFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'createdAt' => \DateTimeImmutable::createFromMutable(self::faker()->dateTimeBetween('-3 years')),
+            // 'createdAt' => \DateTimeImmutable::createFromMutable(self::faker()->dateTimeBetween('-3 years')),
+            'orderNumber' => '123',
             'paidAt' => \DateTimeImmutable::createFromMutable(self::faker()->dateTimeBetween('-3 years')),
             'customer' => UserFactory::new(),
-            'orderNumber' => strtoupper(self::faker()->unique()->bothify('??-#######')),
-            'status' => self::faker()->randomElement(OrdersStatus::cases()),
+            'status' => self::faker()->randomElement(OrderStatus::cases()),
         ];
     }
 
@@ -47,7 +45,7 @@ final class OrdersFactory extends PersistentProxyObjectFactory
     protected function initialize(): static
     {
         return $this
-            // ->afterInstantiate(function(Orders $orders): void {})
+            // ->afterInstantiate(function(Order $order): void {})
         ;
     }
 }

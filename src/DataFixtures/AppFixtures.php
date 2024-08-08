@@ -4,7 +4,7 @@ namespace App\DataFixtures;
 
 use App\Factory\CategoryFactory;
 use App\Factory\OrderItemFactory;
-use App\Factory\OrdersFactory;
+use App\Factory\OrderFactory;
 use App\Factory\ProductFactory;
 use App\Factory\UserFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -18,10 +18,10 @@ class AppFixtures extends Fixture
         CategoryFactory::createMany(5);
         ProductFactory::createMany(100, function () {
             return [
-                'category' => CategoryFactory::random(), // Ceci assignera une catégorie aléatoire existante
+                'category' => CategoryFactory::random(),
             ];
         });
-        OrdersFactory::createMany(10, function () {
+        OrderFactory::createMany(10, function () {
             return [
                 'customer' => UserFactory::random(),
             ];
@@ -29,7 +29,7 @@ class AppFixtures extends Fixture
         OrderItemFactory::createMany(30, function () {
             return [
                 'product' => ProductFactory::random(),
-                'orders' => OrdersFactory::random(),
+                'order' => OrderFactory::random(),
             ];
         });
     }

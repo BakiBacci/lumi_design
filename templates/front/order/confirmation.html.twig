@@ -1,0 +1,12 @@
+{% extends 'front/base.html.twig' %}
+
+{% block title %}
+	{{ parent()}}Panier!
+{% endblock %}
+
+{% block body %}
+	<pre>
+    {{ dump(order) }}
+</pre>
+	<a href="">paiement</a>
+{% endblock %}
