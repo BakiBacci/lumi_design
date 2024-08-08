@@ -48,3 +48,8 @@ foreach ($cart as $id => $quantity) {
 $entityManager->persist($order);
 $entityManager->flush();
 ```
+
+Pour la propriété OrderNumber dans l'entité Order, je veux que ce soit un numéro de commande généré automatiquement.
+
+donc au moment du prepersist que Un OrderListener génère un numéro de commande unique pour chaque commande.
+

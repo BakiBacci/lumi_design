@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class CartService
 {
-    private const CART = 'cart';
+    private const CART = 'pull';
     private $session;
 
     public function __construct(
@@ -15,6 +15,11 @@ class CartService
         private RequestStack $requestStack
     ) {
         $this->session = $this->requestStack->getSession();
+    }
+
+    public function getCart()
+    {
+        return $this->session->get(self::CART, []);
     }
 
     public function getCartContent(): array
