@@ -17,25 +17,27 @@
 						<a class="nav-link" href="#">Contact</a>
 					</li>
 					{% if is_granted('ROLE_ADMIN') %}
-						<li class="nav-item">
+						<li class="nav-item ms-auto">
 							<a class="nav-link" href={{ path('admin_dashboard_index')}}>Dashboard</a>
 						</li>
 					{% endif %}
 
 					{% if is_granted('IS_AUTHENTICATED') %}
-						<li class="nav-item">
+						<li class="nav-item ms-auto">
 							<a class="nav-link" href={{ path('app_logout') }}>Deconnexion</a>
 						</li>
 					{% else %}
+						<li class="nav-item ms-auto">
+							<a class="nav-link" href={{ path('app_login') }}>Connexion</a>
+						</li>
 						<li class="nav-item">
 							<a class="nav-link" href={{ path('app_register') }}>Inscription</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link" href={{ path('app_login') }}>Connexion</a>
-						</li>
 					{% endif %}
 					<li class="nav-item">
-						<a class="nav-link" href={{ path('front_cart_index')}}>Panier</a>
+						<a class="nav-link" href={{ path('front_cart_index')}}>
+							<img src={{ asset('img/icon/cart3.svg') }} alt="">
+						</a>
 					</li>
 				</ul>
 			</div>
