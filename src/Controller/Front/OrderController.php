@@ -2,24 +2,19 @@
 
 namespace App\Controller\Front;
 
-use App\Entity\Order;
 use App\Enum\OrderStatus;
 use App\Repository\OrderRepository;
 use App\Service\CartService;
 use App\Service\EmailService;
+use App\Service\InvoiceService;
 use App\Service\OrderService;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
-use Dompdf\Dompdf;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Validator\Constraints\Required;
 
 #[IsGranted('IS_AUTHENTICATED')]
 #[Route('/commande', name: 'front_order_')]
@@ -60,7 +55,7 @@ class OrderController extends AbstractController
     }
 
     #[Route('/validation/{id}', name: 'validated', methods: ['GET'], requirements: ['id' => Requirement::POSITIVE_INT])]
-    public function validated(int $id, OrderRepository $repository, EmailService $emailService, EntityManagerInterface $em)
+    public function validated(int $id, OrderRepository $repository, EmailService $emailService, EntityManagerInterface $em, InvoiceService $invoiceService)
     {
         // if (!$paymentService->processPayment($order)) {
         //     $this->addFlash('error', 'Ne paiement n'a pas été effectué!');
@@ -77,14 +72,16 @@ class OrderController extends AbstractController
 
         $emailService->sendOrderConfirmationEmail($order);
 
-        $invoice = $this->render('front/invoice/template.html.twig', [
-            'order' => $order
-        ]);
+        $pdf = $invoiceService->generateInvoice($order);
 
-        $dompdf = new Dompdf();
-        $dompdf->loadHtml($invoice);
-        $dompdf->render();
-        $dompdf->output();
+
+        // Créer une methode saveInvoice()
+
+        // $fileName = $order->getOrderNumber() . '.pdf';
+        // $fileDir =  $this->getParameter('kernel.project_dir') . '/public/invoices/';
+        // $filePath = $fileDir . $fileName;
+
+        // file_put_contents($filePath, $pdf);
 
         $this->addFlash('success', 'Votre commande a bien été passée, vous allez recevoir un email de confirmation');
         return $this->redirectToRoute('front_home_index');
