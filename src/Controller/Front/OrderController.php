@@ -71,25 +71,12 @@ class OrderController extends AbstractController
         $em->flush();
 
         $emailService->sendOrderConfirmationEmail($order);
-
         $pdf = $invoiceService->generateInvoice($order);
 
-
-        // Créer une methode saveInvoice()
-
-        // $fileName = $order->getOrderNumber() . '.pdf';
-        // $fileDir =  $this->getParameter('kernel.project_dir') . '/public/invoices/';
-        // $filePath = $fileDir . $fileName;
-
-        // file_put_contents($filePath, $pdf);
+        $invoiceService->saveInvoice($order, $pdf);
 
         $this->addFlash('success', 'Votre commande a bien été passée, vous allez recevoir un email de confirmation');
+
         return $this->redirectToRoute('front_home_index');
     }
-
-
-    // simuler que le paiement est true
-    // passer le status de la commande sur payé
-    // envoyer un mail a l'utilisateur detail de sa commande
-    // creer une facture dans public/invoices new Dompdf()
 }
