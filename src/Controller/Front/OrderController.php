@@ -3,18 +3,21 @@
 namespace App\Controller\Front;
 
 use App\Entity\Order;
+use App\Repository\OrderRepository;
 use App\Service\CartService;
 use App\Service\OrderService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Validator\Constraints\Required;
 
+#[IsGranted('IS_AUTHENTICATED')]
 #[Route('/commande', name: 'front_order_')]
 class OrderController extends AbstractController
 {
-    #[IsGranted('IS_AUTHENTICATED')]
     #[Route('/', name: 'index', methods: ['GET'])]
     public function index(EntityManagerInterface $em, CartService $cartService, OrderService $orderService): Response
     {
@@ -39,11 +42,13 @@ class OrderController extends AbstractController
     }
 
 
-    #[Route('/confirmation/{id}', name: 'confirmation', methods: ['GET'])]
-    public function confirmation(Order $order)
+    #[Route('/confirmation/{id}', name: 'confirmation', methods: ['GET'], requirements: ['id' => Requirement::POSITIVE_INT])]
+    public function confirmation(int $id, OrderRepository $repository): Response
     {
+        $order = $repository->findOrderWithRelations($id);
+
         return $this->render('front/order/confirmation.html.twig', [
-            'order' => $order,
+            'order' => $order
         ]);
     }
 

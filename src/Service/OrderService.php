@@ -16,9 +16,11 @@ class OrderService
         $order = new Order();
         $order->setCustomer($user);
 
+        $total = 0;
         foreach ($cart as $key => $value) {
             $product = $this->repository->find($key);
             $price = $product->getPrice();
+            $total = $total + ($price * $value);
 
             $orderItem = new OrderItem();
             $orderItem->setQuantity($value);
@@ -26,6 +28,8 @@ class OrderService
             $orderItem->setProduct($product);
             $order->addOrderItem($orderItem);
         }
+        $order->setTotal($total);
+        // modifier l'entité pour ajour un champ total qui un decimal 10,2
 
         return $order;
     }
