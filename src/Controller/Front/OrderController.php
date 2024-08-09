@@ -3,10 +3,14 @@
 namespace App\Controller\Front;
 
 use App\Entity\Order;
+use App\Enum\OrderStatus;
 use App\Repository\OrderRepository;
 use App\Service\CartService;
+use App\Service\EmailService;
 use App\Service\OrderService;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Dompdf\Dompdf;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -56,31 +60,31 @@ class OrderController extends AbstractController
     }
 
     #[Route('/validation/{id}', name: 'validated', methods: ['GET'], requirements: ['id' => Requirement::POSITIVE_INT])]
-    public function validated(int $id, OrderRepository $repository, MailerInterface $mailer)
+    public function validated(int $id, OrderRepository $repository, EmailService $emailService, EntityManagerInterface $em)
     {
+        // if (!$paymentService->processPayment($order)) {
+        //     $this->addFlash('error', 'Ne paiement n'a pas été effectué!');
+        //     return $this->redirectToRoute('front_order_confirmation', ['id' => $order->getId()]);
+        // }
+
         $order = $repository->findOrderWithRelations($id);
-        $payement = true;
-        if (!$payement) {
-        }
 
-        // Ceci n'a rien a faire ici!
-        // EmailService
-            // sendOrderConfirmationEmail()
+        $order
+            ->setStatus(OrderStatus::PAID)
+            ->setPaidAt(new DateTimeImmutable());
 
-        // $email = (new TemplatedEmail())
-        //     ->from('lumiDesign@support.com')
-        //     ->to(new Address($order->getCustomer()->getEmail()))
-        //     ->subject('Votre Commande: ' . $order->getOrderNumber())
-        //     ->htmlTemplate('front/emails/order_confirmation.html.twig')
-        //     ->locale('fr')
-        //     ->context([
-        //         'order' => $order,
-        //         'username' => 'foo',
-        //     ]);
+        $em->flush();
 
-        // $mailer->send($email);
+        $emailService->sendOrderConfirmationEmail($order);
 
+        $invoice = $this->render('front/invoice/template.html.twig', [
+            'order' => $order
+        ]);
 
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($invoice);
+        $dompdf->render();
+        $dompdf->output();
 
         $this->addFlash('success', 'Votre commande a bien été passée, vous allez recevoir un email de confirmation');
         return $this->redirectToRoute('front_home_index');
