@@ -7,8 +7,11 @@ use App\Repository\OrderRepository;
 use App\Service\CartService;
 use App\Service\OrderService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -52,7 +55,38 @@ class OrderController extends AbstractController
         ]);
     }
 
-    // route
+    #[Route('/validation/{id}', name: 'validated', methods: ['GET'], requirements: ['id' => Requirement::POSITIVE_INT])]
+    public function validated(int $id, OrderRepository $repository, MailerInterface $mailer)
+    {
+        $order = $repository->findOrderWithRelations($id);
+        $payement = true;
+        if (!$payement) {
+        }
+
+        // Ceci n'a rien a faire ici!
+        // EmailService
+            // sendOrderConfirmationEmail()
+
+        // $email = (new TemplatedEmail())
+        //     ->from('lumiDesign@support.com')
+        //     ->to(new Address($order->getCustomer()->getEmail()))
+        //     ->subject('Votre Commande: ' . $order->getOrderNumber())
+        //     ->htmlTemplate('front/emails/order_confirmation.html.twig')
+        //     ->locale('fr')
+        //     ->context([
+        //         'order' => $order,
+        //         'username' => 'foo',
+        //     ]);
+
+        // $mailer->send($email);
+
+
+
+        $this->addFlash('success', 'Votre commande a bien été passée, vous allez recevoir un email de confirmation');
+        return $this->redirectToRoute('front_home_index');
+    }
+
+
     // simuler que le paiement est true
     // passer le status de la commande sur payé
     // envoyer un mail a l'utilisateur detail de sa commande

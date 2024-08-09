@@ -7,11 +7,14 @@ use App\Repository\OrderRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
+#[UniqueEntity(fields:['orderNumber'])]
 #[HasLifecycleCallbacks]
 class Order
 {
@@ -31,6 +34,9 @@ class Order
 
     #[ORM\Column(type: 'string', enumType: OrderStatus::class)]
     private OrderStatus $status = OrderStatus::PENDING;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $total = null;
 
     #[ORM\ManyToOne(inversedBy: 'order')]
     #[ORM\JoinColumn(nullable: false)]
@@ -102,6 +108,18 @@ class Order
     public function setStatus($status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getTotal(): ?string
+    {
+        return $this->total;
+    }
+
+    public function setTotal(string $total): static
+    {
+        $this->total = $total;
 
         return $this;
     }

@@ -21,7 +21,8 @@
 							<p>Quantité :
 								{{ orderItem.quantity }}</p>
 						{% endfor %}
-						<p>Total :</p>
+						<p>Total :
+							{{ order.total }}</p>
 					</div>
 					<hr>
 					<h6 class="card-subtitle mb-2 text-muted">Adresse de livraison</h6>
@@ -33,7 +34,7 @@
 					</address>
 					<hr>
 					<div class="text-center">
-						<a href="" class="btn btn-primary">Confirmer la commande et procéder au paiement</a>
+						<a href={{ path('front_order_validated', { 'id': order.id} )}} class="btn btn-primary">Confirmer la commande et procéder au paiement</a>
 					</div>
 				</div>
 			</div>
