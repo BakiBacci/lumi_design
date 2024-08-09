@@ -1,18 +1,21 @@
-Je veux un lien dans le header profil ce lien n'apparait que si l'utilisateur est connecté. Ce lien doit rediriger vers la page de profil de l'utilisateur connecté.
+# Création de la section Profil
 
-route => controller
+> Je veux un lien dans le header profil. Ce lien n'apparaît que si l'utilisateur est connecté. Ce lien doit rediriger vers la page de profil de l'utilisateur connecté.
 
-Cette route est protéger il faut etre connecté pour y acceder
-/profil
-ProfileController
+**Route => Controller**
 
-    / index
-    affiche la liste des factures de l'utilisateur
+Cette route est protégée, il faut être connecté pour y accéder :
 
-    $id = $this->getUsers()->getId()
-    order->findAllUserOrders()
-    where order.user = user.id
+-   **/profil**
 
+    -   **ProfileController**
 
-    /detail/{id} show
-    affiche le detail d'une facture
+        -   **/index**
+
+            -   Affiche la liste des factures de l'utilisateur.
+            -   `$id = $this->getUsers()->getId()`
+            -   `order->findAllUserOrders($id)`
+            -   `where order.user = user.id`
+
+        -   **/detail/{id} show**
+            -   Affiche le détail d'une facture.

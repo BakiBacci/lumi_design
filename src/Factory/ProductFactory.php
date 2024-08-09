@@ -33,12 +33,12 @@ final class ProductFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'updatedAt' => \DateTimeImmutable::createFromMutable(self::faker()->dateTimeBetween('-1 year')),
-            'name' => self::faker()->text(10),
+            'name' => self::faker()->unique()->text(10),
             'description' => self::faker()->text(255),
             'image' => self::faker()->imageUrl(width: 800, height: 600),
             'stock' => self::faker()->numberBetween(0, 1000),
             'price' => self::faker()->randomFloat(2, 0, 1000),
+            'updatedAt' => \DateTimeImmutable::createFromMutable(self::faker()->dateTimeBetween('-1 year')),
             'category' => CategoryFactory::new(),
             // 'roles' => ['ROLE_ADMIN']
         ];
